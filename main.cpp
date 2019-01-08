@@ -1,9 +1,13 @@
 #include <iostream>
 
 using namespace std;
+
 extern int a, b;
 extern int c;
 extern float f;
+
+#define WIDTH 5
+#define HEIGHT 10
 
 int func();
 
@@ -81,7 +85,17 @@ int main() {
     int i = func();
     cout << "i = " << i << endl;
 
-    // C++变量类型
+    cout << "Hello\tWorld\n\n";
+
+    int area1 = WIDTH * HEIGHT;
+    cout << "area1 = " << area1 << endl;
+
+    const int CONST_WIDTH = 20;
+    const int CONST_HEIGHT = 30;
+    int area2 = CONST_WIDTH * CONST_HEIGHT;
+    cout << "area2 = " << area2 << endl;
+
+    //c++常量
     return 0;
 }
 
