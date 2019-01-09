@@ -3,4 +3,4 @@ project(CPlusExerciseDemo)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(CPlusExerciseDemo main.cpp)
+add_executable(CPlusExerciseDemo main.cpp support.cpp)

@@ -2,14 +2,22 @@
 
 using namespace std;
 
-extern int a, b;
-extern int c;
-extern float f;
-
 #define WIDTH 5
 #define HEIGHT 10
 
+extern int a, b;
+extern int c;
+extern float f;
+static int num = 10;
+
+
+void func_static(void);
+
 int func();
+
+extern void write_extern();
+
+int num_extern;
 
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
@@ -95,10 +103,28 @@ int main() {
     int area2 = CONST_WIDTH * CONST_HEIGHT;
     cout << "area2 = " << area2 << endl;
 
-    //c++常量
+    short int i_short;
+    short unsigned int j;
+    j = 50000;
+    i_short = j;
+    cout << "i_short = " << i_short << ", j = " << j << endl;
+
+    while (num--) {
+        func_static();
+    }
+
+    num_extern = 5;
+    write_extern();
     return 0;
 }
 
 int func() {
     return 0;
+}
+
+void func_static(void) {
+    static int i = 5;
+    i++;
+    cout << "变量i为 " << i;
+    cout << "，变量num为 " << num << endl;
 }
