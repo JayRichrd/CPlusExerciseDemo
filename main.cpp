@@ -115,6 +115,7 @@ int main() {
 
     num_extern = 5;
     write_extern();
+    // c++存储类
     return 0;
 }
 
