@@ -1,4 +1,8 @@
 #include <iostream>
+#include <vector>
+#include <cmath>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -18,6 +22,8 @@ int func();
 extern void write_extern();
 
 int num_extern;
+
+int sum(int a, int b = 20);
 
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
@@ -115,7 +121,38 @@ int main() {
 
     num_extern = 5;
     write_extern();
-    // c++存储类
+
+    cout << "a + b = " << sum(20, 30) << endl;
+    cout << "a + b = " << sum(20) << endl;
+
+    vector<int> some_list;
+    int total = 0;
+    int value = 5;
+    for (int i = 0; i < 5; ++i) {
+        some_list.push_back(i);
+    }
+    for_each(begin(some_list), end(some_list), [&, value](int x) {
+        total += x * value;
+    });
+    cout << "total = " << total << endl;
+
+    short s = 10;
+    int i_math = -1000;
+    long l = 100000;
+    float f_math = 230.47;
+    double d = 200.374;
+    cout << "sin(d) = " << sin(d) << endl;
+    cout << "abs(i) = " << abs(i_math) << endl;
+    cout << "floor(d) = " << floor(d) << endl;
+    cout << "sqrt(f) = " << sqrt(f_math) << endl;
+    cout << "pow(d,2) = " << pow(d, 2) << endl;
+
+    srand((unsigned) time(NULL));
+    for (int i = 0; i < 10; ++i) {
+        j = rand();
+        cout << "随机数：" << j << endl;
+    }
+    // c++数字
     return 0;
 }
 
@@ -128,4 +165,8 @@ void func_static(void) {
     i++;
     cout << "变量i为 " << i;
     cout << "，变量num为 " << num << endl;
+}
+
+int sum(int a, int b) {
+    return a + b;
 }
