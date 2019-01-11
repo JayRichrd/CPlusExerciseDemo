@@ -3,8 +3,13 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include <iomanip>
+#include <cstring>
+#include <string>
+
 
 using namespace std;
+using std::setw;
 
 #define WIDTH 5
 #define HEIGHT 10
@@ -24,6 +29,12 @@ extern void write_extern();
 int num_extern;
 
 int sum(int a, int b = 20);
+
+const int MAX = 3;
+
+double getAverage(double arr[], int size);
+
+int *getRandom();
 
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
@@ -152,7 +163,100 @@ int main() {
         j = rand();
         cout << "随机数：" << j << endl;
     }
-    // c++数字
+
+    int n[10];
+    for (int k = 0; k < 10; ++k) {
+        n[k] = k + 100;
+    }
+    cout << "Element" << setw(13) << "Value" << endl;
+    for (int j = 0; j < 10; ++j) {
+        cout << setw(7) << j << setw(13) << n[j] << endl;
+    }
+
+    int a_2[5][2] = {{0, 0},
+                     {1, 2},
+                     {2, 4},
+                     {3, 6},
+                     {4, 8}};
+    for (int m = 0; m < 5; ++m) {
+        for (int k = 0; k < 2; ++k) {
+            cout << "a[" << m << "][" << k << "]=" << a_2[m][k] << endl;
+        }
+    }
+
+    double balance[5] = {1000.0, 2.0, 3.4, 17.0, 50.0};
+    double *p;
+    p = balance;
+    cout << "使用指针的数组值" << endl;
+    for (int i = 0; i < 5; ++i) {
+        cout << "*(p +" << i << ")=" << *(p + i) << endl;
+    }
+    cout << "使用 balance 作为地址的数组值 " << endl;
+    for (int k = 0; k < 5; ++k) {
+        cout << "*(balance + " << k << ")=" << *(balance + k) << endl;
+    }
+    size_t balance_size = sizeof(balance) / sizeof(double);
+    size_t pt1_size = sizeof(p);
+    cout << "balance size: " << balance_size << ", pt1_size:" << pt1_size << endl;
+    double avg;
+    avg = getAverage(balance, 5);
+    cout << "平均值：" << avg << endl;
+
+    char var[MAX] = {'a', 'b', 'c'};
+    char *ptr;
+    // 指针中的数组地址
+    ptr = var;
+    for (int i = 0; i < MAX; i++) {
+
+        cout << "Address of var[" << i << "] = ";
+        // 输出整个字符串
+//        cout << ptr << endl;
+        // 输出地址
+        cout << (int *) ptr << endl;
+
+        cout << "Value of var[" << i << "] = ";
+        cout << *ptr << endl;
+
+        // 移动到下一个位置
+        ptr++;
+    }
+
+    int *p_return;
+    p_return = getRandom();
+    for (int i = 0; i < 10; ++i) {
+        cout << "*(p + " << i << ") = " << *(p_return + i) << endl;
+    }
+
+    char str1[11] = "Hello";
+    char str2[11] = "World";
+    char str3[11];
+    strcpy(str3, str1);
+    cout << "strcpy( str3, str1) : " << str3 << endl;
+
+    // 连接 str1 和 str2
+    cout << "str1 len = " << strlen(str1) << endl;
+    strcat(str1, str2);
+    cout << "strcat( str1, str2): " << str1 << endl;
+
+    int len = strlen(str1);
+    cout << "strlen(str1) : " << len << endl;
+
+    string string1 = "Hello";
+    string string2 = "World";
+    string string3;
+    // 复制 str1 到 str3
+    string3 = string1;
+    cout << "string3 : " << string3 << endl;
+
+    // 连接 str1 和 str2
+    string3 = string1 + string2;
+    cout << "string1 + string2 : " << string3 << endl;
+
+    // 连接后，str3 的总长度
+    int lenStr = string3.size();
+    cout << "str3.size() :  " << lenStr << endl;
+
+    // c++字符串
     return 0;
 }
 
@@ -169,4 +273,23 @@ void func_static(void) {
 
 int sum(int a, int b) {
     return a + b;
+}
+
+double getAverage(double arr[], int size) {
+    double avg, sum;
+    for (int j = 0; j < size; ++j) {
+        sum += arr[j];
+    }
+    avg = double(sum) / size;
+    return avg;
+}
+
+int *getRandom() {
+    static int r[10];
+    srand((unsigned) time(NULL));
+    for (int i = 0; i < 10; ++i) {
+        r[i] = rand();
+        cout << r[i] << endl;
+    }
+    return r;
 }
