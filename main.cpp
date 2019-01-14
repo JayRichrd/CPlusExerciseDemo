@@ -36,6 +36,14 @@ double getAverage(double arr[], int size);
 
 int *getRandom();
 
+void getSeconds(unsigned long *par);
+
+void swap(int &x, int &y);
+
+double vals[] = {10.1, 12.6, 33.1, 24.1, 50.0};
+
+double &setValues(int i);
+
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
     cout << "bool: \t\t" << "所占字节数：" << sizeof(bool);
@@ -256,7 +264,117 @@ int main() {
     int lenStr = string3.size();
     cout << "str3.size() :  " << lenStr << endl;
 
-    // c++字符串
+    int var1;
+    char var2[10];
+    cout << "var1 变量的地址：" << &var1 << endl;
+    cout << "var2 变量的地址：" << &var2 << endl;
+
+    int var3 = 20;
+    int *var3_ip;
+    var3_ip = &var3;
+    cout << "Value of var3 variable:" << var3 << endl;
+    cout << "Address stored in ip varable：" << var3_ip << endl;
+    cout << "Value of *ip varable：" << *var3_ip << endl;
+
+    int *null_ip = NULL;
+    cout << "null_ip的值是：" << null_ip << endl;
+
+    cout << endl;
+    int var_array[MAX] = {10, 100, 200};
+    int *var_address[MAX];
+    int *array_ip;
+    array_ip = var_array;
+    for (int i = 0; i < MAX; ++i) {
+        cout << "Address of var[" << i << "] = " << array_ip << endl;
+        cout << "Value of var[" << i << "] = " << *array_ip << endl;
+        array_ip++;
+    }
+
+    for (int i = 0; i < MAX; ++i) {
+        *(var_array + i) = i;
+    }
+
+    for (int i = 0; i < MAX; ++i) {
+        var_address[i] = &var_array[i];
+    }
+
+    cout << endl;
+    for (int j = 0; j < MAX; ++j) {
+        cout << "Value of var[" << j << "] = " << *var_address[j] << endl;
+    }
+
+    cout << endl;
+    int index_array = 0;
+    array_ip = var_array;
+    while (array_ip <= &var_array[MAX - 1]) {
+        cout << "Address of var[" << index_array << "] = " << array_ip << endl;
+        cout << "Value of var[" << index_array << "] = " << *array_ip << endl;
+        array_ip++;
+        index_array++;
+    }
+
+    /**
+     * 字符串类型有所不同
+     */
+    const char *names[MAX] = {"Zara Ali",
+                              "Hina Ali",
+                              "Nuha Ali"};
+    cout << endl;
+    for (int k = 0; k < MAX; ++k) {
+        cout << "Value of name[" << k << "] = " << names[k] << endl;
+    }
+
+    int var4;
+    int *ptr1;
+    int **pptr1;
+    var4 = 3000;
+    ptr1 = &var4;
+    pptr1 = &ptr1;
+    cout << endl;
+    cout << "var4 值为：" << var4 << endl;
+    cout << "*ptr1 值为：" << *ptr1 << endl;
+    cout << "**ptr1 值为：" << **pptr1 << endl;
+
+    cout << endl;
+    unsigned long sec;
+    getSeconds(&sec);
+    cout << "Number of seconds：" << sec << endl;
+
+    cout << endl;
+    int i_1;
+    double d_1;
+    int &r_i_1 = i_1;
+    double &d_d_1 = d_1;
+    i_1 = 5;
+    d_1 = 11.7;
+    cout << "Value of i_1 : " << i_1 << endl;
+    cout << "Value of i_1 reference : " << r_i_1 << endl;
+    cout << "Value of d_1 : " << d_1 << endl;
+    cout << "Value of d_1 reference : " << d_d_1 << endl;
+
+    cout << endl;
+    int x = 100;
+    int y = 200;
+    cout << "交换前，x的值：" << x << endl;
+    cout << "交换前，y的值：" << y << endl;
+    swap(x, y);
+    cout << "交换后，x的值：" << x << endl;
+    cout << "交换后，y的值：" << y << endl;
+
+    cout << endl;
+    cout << "改变前的值：" << endl;
+    for (int m = 0; m < 5; ++m) {
+        cout << "vals[" << m << "] = " << vals[m] << endl;
+    }
+    setValues(1) = 20.23;
+    setValues(3) = 70.8;
+    cout << "改变后的值：" << endl;
+    for (int n = 0; n < 5; ++n) {
+        cout << "vals[" << n << "] = " << vals[n] << endl;
+
+    }
+
+    // c++引用
     return 0;
 }
 
@@ -292,4 +410,19 @@ int *getRandom() {
         cout << r[i] << endl;
     }
     return r;
+}
+
+void getSeconds(unsigned long *par) {
+    *par = time(NULL);
+}
+
+void swap(int &x, int &y) {
+    int temp;
+    temp = x;
+    x = y;
+    y = temp;
+}
+
+double &setValues(int i) {
+    return vals[i];
 }
