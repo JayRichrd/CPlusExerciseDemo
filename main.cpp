@@ -374,7 +374,31 @@ int main() {
 
     }
 
-    // c++引用
+    cout << endl;
+    time_t now = time(0);
+    cout << "1970 到目前经过的秒数：" << now << endl;
+    tm *ltm = localtime(&now);
+    cout << "年：" << 1900 + ltm->tm_year << endl;
+    cout << "月：" << 1 + ltm->tm_mon << endl;
+    cout << "日：" << ltm->tm_mday << endl;
+    cout << "时间：" << ltm->tm_hour << ":" << ltm->tm_min << ":" << ltm->tm_sec << endl;
+    char *dt = ctime(&now);
+    cout << "本地日期和时间：" << dt << endl;
+    tm *gmtm = gmtime(&now);
+    dt = asctime(gmtm);
+    cout << "UTC日期和时间：" << dt << endl;
+
+//    char name[50];
+//    int age;
+//    cout << "请输入姓名和年龄：";
+//    cin >> name >> age;
+//    cout << "您的姓名：" << name << ", 您的年龄：" << age << endl;
+
+    char str[] = "unable to read ……";
+    cerr << "Error msg: " << str << endl;
+    clog << "Error msg: " << str << endl;
+
+    //c++基本输入输出
     return 0;
 }
 
