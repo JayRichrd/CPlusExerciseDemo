@@ -44,6 +44,109 @@ double vals[] = {10.1, 12.6, 33.1, 24.1, 50.0};
 
 double &setValues(int i);
 
+typedef struct Books {
+    char title[50];
+    char author[50];
+    char subject[50];
+    int book_id;
+} book;
+
+class Box {
+    double width;
+public:
+    double length;
+    double breadth;
+    double height;
+
+    friend void printWidth(Box box);
+
+    void setWidth(double wid);
+
+    double getVolume(void);
+};
+
+double Box::getVolume() {
+    return length * breadth * height;
+}
+
+void printWidth(Box box) {
+    cout << "Width of box: " << box.width << endl;
+}
+
+void Box::setWidth(double wid) {
+    width = wid;
+}
+
+class Line {
+public:
+    void setLength(double len);
+
+    double getLength(void);
+
+    int getLengthPtr(void);
+
+    Line();
+
+    Line(double len);
+
+    Line(int len);
+
+    Line(const Line &obj);
+
+    ~Line();
+
+
+private:
+    double length;
+    int *ptr;
+};
+
+Line::Line(void) {
+    cout << "Object is being created" << endl;
+}
+
+Line::Line(double len) : length(len) {
+    cout << "Object is being created, length = " << len << endl;
+}
+
+Line::Line(int len) {
+    cout << "Object is being created, length = " << len << endl;
+    // 为指针分配内存
+    ptr = new int;
+    *ptr = len;
+}
+
+Line::Line(const Line &obj) {
+    cout << "调用拷贝构造函数并为指针 ptr 分配内存" << endl;
+    ptr = new int;
+    *ptr = *(obj.ptr);
+}
+
+Line::~Line() {
+    cout << "Object is being deleted" << endl;
+    delete ptr;
+}
+
+void Line::setLength(double len) {
+    length = len;
+}
+
+double Line::getLength() {
+    return length;
+}
+
+int Line::getLengthPtr() {
+    return *ptr;
+}
+
+void printBook(struct Books books);
+
+void printBookPoint(struct Books *books);
+
+inline int Max(int x, int y) {
+    return (x > y) ? x : y;
+}
+
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
     cout << "bool: \t\t" << "所占字节数：" << sizeof(bool);
@@ -398,7 +501,68 @@ int main() {
     cerr << "Error msg: " << str << endl;
     clog << "Error msg: " << str << endl;
 
-    //c++基本输入输出
+    cout << endl;
+//    Books books1, books2;
+    book books1, books2;
+    strcpy(books1.title, "c++ 教材");
+    strcpy(books1.author, "Runoob");
+    strcpy(books1.subject, "编程语言");
+    books1.book_id = 12345;
+
+    strcpy(books2.title, "css 教材");
+    strcpy(books2.author, "Runoob");
+    strcpy(books2.subject, "前端技术");
+    books2.book_id = 12346;
+
+    cout << "第一本书标题：" << books1.title << endl;
+    cout << "第一本书作者：" << books1.author << endl;
+    cout << "第一本书类目：" << books1.subject << endl;
+    cout << "第一本书ID：" << books1.book_id << endl;
+
+    cout << endl;
+    cout << "第二本书标题：" << books2.title << endl;
+    cout << "第二本书作者：" << books2.author << endl;
+    cout << "第二本书类目：" << books2.subject << endl;
+    cout << "第二本书ID：" << books2.book_id << endl;
+
+    cout << endl;
+    printBook(books1);
+
+    cout << endl;
+    printBookPoint(&books2);
+
+    cout << endl;
+    Box box1, box2, box3;
+    double volume = 0.0;
+    box1.height = 5.0;
+    box1.length = 6.0;
+    box1.breadth = 7.0;
+    box2.height = 10.0;
+    box2.length = 11.0;
+    box2.breadth = 12.0;
+    volume = box1.height * box1.length * box1.breadth;
+    cout << "Box1的体积：" << volume << endl;
+    cout << "Box1的体积：" << box1.getVolume() << endl;
+    volume = box2.height * box2.length * box2.breadth;
+    cout << "Box2的体积：" << volume << endl;
+    box3.setWidth(20);
+    printWidth(box3);
+
+
+    cout << endl;
+//    Line line1;
+//    line1.setLength(6.0);
+//    cout << "Length fo line1：" << line1.getLength() << endl;
+//    Line line2(10.0);
+//    cout << "Length of line2：" << line2.getLength() << endl;
+    Line line3(9);
+    cout << "Length of line3：" << line3.getLengthPtr() << endl;
+
+    cout << endl;
+    int max_int = Max(20, 10);
+    cout << "max(20,10)：" << max_int << endl;
+
+    //c++ 类和对象
     return 0;
 }
 
@@ -449,4 +613,18 @@ void swap(int &x, int &y) {
 
 double &setValues(int i) {
     return vals[i];
+}
+
+void printBook(struct Books books) {
+    cout << "书标题：" << books.title << endl;
+    cout << "书作者：" << books.author << endl;
+    cout << "书类目：" << books.subject << endl;
+    cout << "本书ID：" << books.book_id << endl;
+}
+
+void printBookPoint(struct Books *books) {
+    cout << "书标题：" << books->title << endl;
+    cout << "书作者：" << books->author << endl;
+    cout << "书类目：" << books->subject << endl;
+    cout << "本书ID：" << books->book_id << endl;
 }
