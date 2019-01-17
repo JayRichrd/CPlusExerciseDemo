@@ -147,6 +147,50 @@ inline int Max(int x, int y) {
     return (x > y) ? x : y;
 }
 
+class Shape {
+public:
+    void setWidth(int w) {
+        width = w;
+    }
+
+    void setHeight(int h) {
+        height = h;
+    }
+
+protected:
+    int width;
+    int height;
+};
+
+class PaintCost {
+public:
+    int getCost(int area) {
+        return area * 70;
+    }
+};
+
+class Rectangle : public Shape, public PaintCost {
+public:
+    int getArea() {
+        return width * height;
+    }
+};
+
+class printData {
+public:
+    void print(int i) {
+        cout << "整数：" << i << endl;
+    }
+
+    void print(double d) {
+        cout << "浮点数：" << d << endl;
+    }
+
+    void print(char c[]) {
+        cout << "字符串：" << c << endl;
+    }
+};
+
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
     cout << "bool: \t\t" << "所占字节数：" << sizeof(bool);
@@ -562,7 +606,20 @@ int main() {
     int max_int = Max(20, 10);
     cout << "max(20,10)：" << max_int << endl;
 
-    //c++ 类和对象
+    cout << endl;
+    Rectangle rectangle;
+    rectangle.setWidth(5);
+    rectangle.setHeight(7);
+    cout << "Total area：" << rectangle.getArea() << endl;
+    cout << "Total paint cost：" << rectangle.getCost(rectangle.getArea()) << endl;
+
+    cout << endl;
+    printData pd;
+    pd.print(5);
+    pd.print(300.789);
+    pd.print("Hello c");
+
+    //c++ 重载运算符和函数
     return 0;
 }
 
