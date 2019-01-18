@@ -157,6 +157,19 @@ public:
         height = h;
     }
 
+    Shape(int w = 0, int h = 0) {
+        width = w;
+        height = h;
+    }
+
+    // 虚函数
+//    virtual int area() {
+//        cout << "Parent class area: " << width * height << endl;
+//        return width * height;
+//    }
+    // 纯虚函数
+    virtual int area() = 0;
+
 protected:
     int width;
     int height;
@@ -172,6 +185,13 @@ public:
 class Rectangle : public Shape, public PaintCost {
 public:
     int getArea() {
+        return width * height;
+    }
+
+    Rectangle(int w = 0, int h = 0) : Shape(w, h) {}
+
+    int area() {
+        cout << "Rectangle class area: " << width * height << endl;
         return width * height;
     }
 };
@@ -619,7 +639,13 @@ int main() {
     pd.print(300.789);
     pd.print("Hello c");
 
-    //c++ 重载运算符和函数
+    cout << endl;
+    Shape *shape;
+    Rectangle rectangle1(5, 7);
+    shape = &rectangle1;
+    shape->area();
+
+    // c++数据抽象
     return 0;
 }
 
