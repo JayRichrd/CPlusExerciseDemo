@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <cstring>
 #include <string>
+#include <fstream>
 
 
 using namespace std;
@@ -43,6 +44,8 @@ void swap(int &x, int &y);
 double vals[] = {10.1, 12.6, 33.1, 24.1, 50.0};
 
 double &setValues(int i);
+
+double division(int a, int b);
 
 typedef struct Books {
     char title[50];
@@ -645,7 +648,50 @@ int main() {
     shape = &rectangle1;
     shape->area();
 
-    // c++数据抽象
+    cout << endl;
+    char data[100];
+    ofstream outfile;
+    outfile.open("afile.dat");
+    cout << "Write to the file" << endl;
+    cout << "Enter your name:";
+    cin.getline(data, 100);
+    //向文件写入用户输入的数据
+    outfile << data << endl;
+
+    cout << "Enter your age:";
+    cin >> data;
+    cin.ignore();
+
+    //再次向文件写入用户输入的数据
+    outfile << data << endl;
+
+    //关闭打开的文件
+    outfile.close();
+
+    //以读模式打开文件
+    ifstream infile;
+    infile.open("afile.dat");
+    cout << "Reading from the file" << endl;
+    infile >> data;
+    //在屏幕上写入数据
+    cout << data << endl;
+    //再次从文件读取数据，并显示它
+    infile >> data;
+    cout << data << endl;
+    // 关闭打开的文件
+    infile.close();
+
+    cout << endl;
+    int first_x = 10;
+    int second_y = 0;
+    double z_result = 0.0;
+    try {
+        z_result = division(first_x, second_y);
+    } catch (...) {
+        cerr << "Division by zero condition!" << endl;
+    }
+
+    //C++异常
     return 0;
 }
 
@@ -710,4 +756,12 @@ void printBookPoint(struct Books *books) {
     cout << "书作者：" << books->author << endl;
     cout << "书类目：" << books->subject << endl;
     cout << "本书ID：" << books->book_id << endl;
+}
+
+double division(int a, int b) {
+    if (b == 0) {
+        throw "Division by zero condition.";
+    } else {
+        return a / b;
+    }
 }
