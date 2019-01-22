@@ -214,6 +214,31 @@ public:
     }
 };
 
+class MyBox {
+public:
+    MyBox() {
+        cout << "调用构造函数" << endl;
+    }
+
+    ~MyBox() {
+        cout << "调用析构函数" << endl;
+    }
+};
+
+namespace first_space {
+    void func1() {
+        cout << "Inside first space" << endl;
+    }
+}
+
+namespace second_space {
+    void func1() {
+        cout << "Inside second space" << endl;
+    }
+}
+
+using namespace first_space;
+
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
     cout << "bool: \t\t" << "所占字节数：" << sizeof(bool);
@@ -649,37 +674,37 @@ int main() {
     shape->area();
 
     cout << endl;
-    char data[100];
-    ofstream outfile;
-    outfile.open("afile.dat");
-    cout << "Write to the file" << endl;
-    cout << "Enter your name:";
-    cin.getline(data, 100);
+//    char data[100];
+//    ofstream outfile;
+//    outfile.open("afile.dat");
+//    cout << "Write to the file" << endl;
+//    cout << "Enter your name:";
+//    cin.getline(data, 100);
     //向文件写入用户输入的数据
-    outfile << data << endl;
-
-    cout << "Enter your age:";
-    cin >> data;
-    cin.ignore();
+//    outfile << data << endl;
+//
+//    cout << "Enter your age:";
+//    cin >> data;
+//    cin.ignore();
 
     //再次向文件写入用户输入的数据
-    outfile << data << endl;
+//    outfile << data << endl;
 
     //关闭打开的文件
-    outfile.close();
+//    outfile.close();
 
     //以读模式打开文件
-    ifstream infile;
-    infile.open("afile.dat");
-    cout << "Reading from the file" << endl;
-    infile >> data;
+//    ifstream infile;
+//    infile.open("afile.dat");
+//    cout << "Reading from the file" << endl;
+//    infile >> data;
     //在屏幕上写入数据
-    cout << data << endl;
+//    cout << data << endl;
     //再次从文件读取数据，并显示它
-    infile >> data;
-    cout << data << endl;
+//    infile >> data;
+//    cout << data << endl;
     // 关闭打开的文件
-    infile.close();
+//    infile.close();
 
     cout << endl;
     int first_x = 10;
@@ -691,7 +716,47 @@ int main() {
         cerr << "Division by zero condition!" << endl;
     }
 
-    //C++异常
+    cout << endl;
+    double *pvalue = NULL;
+    if (!(pvalue = new double)) {
+        cout << "Error: out of memory." << endl;
+        exit(1);
+    }
+    *pvalue = 287485.99;
+    cout << "Value of pvalue: " << *pvalue << endl;
+    delete pvalue;
+
+    cout << endl;
+    int **dynamic_p;
+    int i_index, j_index;
+    dynamic_p = new int *[4];
+    for (int i = 0; i < 4; ++i) {
+        dynamic_p[i] = new int[8];
+    }
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            dynamic_p[i][j] = i * j;
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            if (j == 0) cout << endl;
+            cout << dynamic_p[i][j] << "\t";
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        delete[]dynamic_p[i];
+    }
+    delete[]dynamic_p;
+
+    cout << endl;
+    MyBox *myBox = new MyBox[4];
+    delete[]myBox;
+
+    cout << endl;
+    func1();
+
+    // 命名空间
     return 0;
 }
 
