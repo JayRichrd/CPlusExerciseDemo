@@ -7,13 +7,16 @@
 #include <cstring>
 #include <string>
 #include <fstream>
+#include <stdexcept>
 
 
 using namespace std;
 using std::setw;
-
+#define DEBUG
 #define WIDTH 5
 #define HEIGHT 10
+#define PI 3.14
+#define MIN(a, b) (a<b ? a:b)
 
 extern int a, b;
 extern int c;
@@ -238,6 +241,27 @@ namespace second_space {
 }
 
 using namespace first_space;
+
+template<typename T>
+inline T const &Max(T const &a, T const &b) {
+    return a < b ? b : a;
+}
+
+template<class T>
+class MyStack {
+private:
+    vector<T> elems;
+public:
+    void push(T const &);
+
+    void pop();
+
+    T top() const;
+
+    bool empty() const {
+        return elems.empty();
+    }
+};
 
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
@@ -756,7 +780,48 @@ int main() {
     cout << endl;
     func1();
 
-    // 命名空间
+    cout << endl;
+    int i_template = 30;
+    int j_template = 20;
+    cout << "Max(i,j) = " << Max(i_template, j_template) << endl;
+    double f1 = 13.5;
+    double f2 = 20.7;
+    cout << "Max(f1,f2) = " << Max(f1, f2) << endl;
+    string s1 = "Hello";
+    string s2 = "World";
+    cout << "Max(s1,s2) = " << Max(s1, s2) << endl;
+
+    cout << endl;
+    try {
+        MyStack<int> intStack;
+        MyStack<string> stringsStack;
+
+        intStack.push(7);
+        cout << "top of inStack: " << intStack.top() << endl;
+
+        stringsStack.push("Hello");
+        cout << "top of stringStack: " << stringsStack.top() << endl;
+        stringsStack.pop();
+    } catch (exception const &ex) {
+        cerr << "Exception: " << ex.what() << endl;
+        return -1;
+    }
+
+    cout << endl;
+    cout << "PI = " << PI << endl;
+
+
+    cout << endl;
+#ifdef DEBUG
+    cerr << "Trace: Inside main function" << endl;
+#endif
+    cout << "Min = " << MIN(20, 30) << endl;
+
+#ifdef DEBUG
+    cerr << "Trace: Coming out of main function" << endl;
+#endif
+
+    //c++预处理器
     return 0;
 }
 
@@ -829,4 +894,25 @@ double division(int a, int b) {
     } else {
         return a / b;
     }
+}
+
+template<class T>
+void MyStack<T>::pop() {
+    if (elems.empty()) {
+        throw out_of_range("empty stack.");
+    }
+    elems.pop_back();
+}
+
+template<class T>
+void MyStack<T>::push(const T &elem) {
+    elems.push_back(elem);
+}
+
+template<class T>
+T MyStack<T>::top() const {
+    if (elems.empty()) {
+        throw out_of_range("empty stack.");
+    }
+    return elems.back();
 }
