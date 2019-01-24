@@ -8,6 +8,9 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
+#include <csignal>
+#include <unistd.h>
+#include <pthread.h>
 
 
 using namespace std;
@@ -17,6 +20,8 @@ using std::setw;
 #define HEIGHT 10
 #define PI 3.14
 #define MIN(a, b) (a<b ? a:b)
+#define NUM_THREADS 5
+
 
 extern int a, b;
 extern int c;
@@ -56,6 +61,11 @@ typedef struct Books {
     char subject[50];
     int book_id;
 } book;
+
+typedef struct Thread_Data {
+    int thread_id;
+    char *message;
+} thread_data;
 
 class Box {
     double width;
@@ -262,6 +272,12 @@ public:
         return elems.empty();
     }
 };
+
+void signalHandler(int sig_num);
+
+void *say_hello(void *args);
+
+void *wait(void *t);
 
 int main() {
     cout << "type: \t\t" << "************size**************" << endl;
@@ -821,7 +837,63 @@ int main() {
     cerr << "Trace: Coming out of main function" << endl;
 #endif
 
-    //c++预处理器
+//    signal(SIGINT, signalHandler);
+//    int i_signal_index = 0;
+//    while (++i_signal_index) {
+//        cout << "Going to sleep……" << endl;
+//        if (i_signal_index == 3) {
+//            raise(SIGINT);
+//        }
+//        sleep(1);
+//    }
+
+    cout << endl;
+//    pthread_t tids[NUM_THREADS];
+//    struct Thread_Data thread_data_array[NUM_THREADS];
+//    int indexes[NUM_THREADS];
+//    for (int i = 0; i < NUM_THREADS; ++i) {
+//        cout << "main(),创建线程" << i << endl;
+//        thread_data_array[i].thread_id = i;
+//        thread_data_array[i].message = (char *) ("this is a message, from " + i);
+//        int ret = pthread_create(&tids[i], NULL, say_hello, (void *) &(thread_data_array[i]));
+//        if (ret) {
+//            cout << "pthread_create error: error_code = " << ret << endl;
+//            exit(-1);
+//        }
+//    }
+//    pthread_exit(NULL);
+
+    int rc;
+    pthread_t threads[NUM_THREADS];
+    pthread_attr_t attr;
+    void *status;
+
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        cout << "main():creating thread," << i << endl;
+        rc = pthread_create(&threads[i], NULL, wait, (void *) &i);
+        if (rc) {
+            cout << "pthread_create error: error_code = " << rc << endl;
+            exit(-1);
+        }
+
+    }
+
+    pthread_attr_destroy(&attr);
+    for (int j = 0; j < NUM_THREADS; ++j) {
+        rc = pthread_join(threads[j], &status);
+        if (rc) {
+            cout << "pthread_create error: error_code = " << rc << endl;
+            exit(-1);
+        }
+        cout << "Main : completed thread id: " << i;
+        cout << "exting with status: " << status << endl;
+    }
+    cout << "Main: program exiting." << endl;
+
+    //C++多线程
     return 0;
 }
 
@@ -915,4 +987,27 @@ T MyStack<T>::top() const {
         throw out_of_range("empty stack.");
     }
     return elems.back();
+}
+
+void signalHandler(int sig_num) {
+    cout << "Interrupt signal (" << sig_num << ") reveived." << endl;
+    exit(sig_num);
+}
+
+void *say_hello(void *args) {
+    struct Thread_Data *my_data;
+    my_data = (struct Thread_Data *) args;
+    int tid = *((int *) args);
+    cout << "Hello Runoob! 线程id：" << my_data->thread_id << ", Message: " << my_data->message << endl;
+    pthread_exit(NULL);
+}
+
+void *wait(void *t) {
+    int i;
+    long tid;
+    tid = (long) t;
+
+    sleep(1);
+    cout << "Sleep in thread, Thread with id: " << tid << "……exiting" << endl;
+    pthread_exit(NULL);
 }
