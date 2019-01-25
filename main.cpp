@@ -893,7 +893,23 @@ int main() {
     }
     cout << "Main: program exiting." << endl;
 
-    //C++多线程
+    cout << endl;
+    vector<int> vec;
+    int vec_i;
+    cout << "vector size = " << vec.size() << endl;
+    for (int i = 0; i < 5; ++i) {
+        vec.push_back(i);
+    }
+    cout << "extended vector size = " << vec.size() << endl;
+    for (int j = 0; j < 5; ++j) {
+        cout << "value of vec [" << i << "] = " << vec[j] << endl;
+    }
+    vector<int>::iterator iterator1 = vec.begin();
+    while (iterator1 != vec.end()) {
+        cout << "value of v = " << *iterator1 << endl;
+        iterator1++;
+    }
+
     return 0;
 }
 
